@@ -48,11 +48,12 @@ CharacterStats.prototype.takeDamage = function(){
   * should inherit takeDamage() from CharacterStats
 */
  function Humanoid (obj){
-  CharacterStats.call(this, obj); // binding this to Person
-  GameObject.call(this, obj); // binding this to Person
-   this.faction = obj.faction;
-   this.weapons =  obj.weapons;
-   this.language = obj.language;
+  CharacterStats.call(this, obj); // binding this to CharacterStats
+  GameObject.call(this, obj); // binding this to GameObject
+
+  this.faction = obj.faction;
+  this.weapons =  obj.weapons;
+  this.language = obj.language;
  }
  Humanoid.prototype = Object.create(CharacterStats.prototype);
 
@@ -134,6 +135,62 @@ CharacterStats.prototype.takeDamage = function(){
 
 
   // Stretch task: 
-  // * Create Villian and Hero classes that inherit from the Humanoid class.  
-  // * Give the Hero and Villians different methods that could be used to remove health points from objects which could result in destruction if health gets to 0 or drops below 0;
+  // * Create Villian and Hero classes that inherit from the Humanoid class.
+  function Villian (obj){
+    Humanoid.call(this, obj);
+  }
+
+  function Hero (obj){
+    Humanoid.call(this, obj);
+  }
+  // * Give the Hero and Villians different methods that could be used to remove health points from 
+  //objects which could result in destruction if health gets to 0 or drops below 0;
+  Villian.prototype = Object.create(Humanoid.prototype);
+  Hero.prototype = Object.create(Humanoid.prototype);
+
+  Villian.prototype.removeHealth = function(){
+    return --this.hp;
+  }
+  Hero.prototype.removeHealth = function(){
+    return --this.hp;
+  }
   // * Create two new objects, one a villian and one a hero and fight it out with methods!
+  const vili = new Villian({
+    createdAt: new Date(),
+    dimensions: {
+      length: 1,
+      width: 2,
+      height: 4,
+    },
+    hp: 10,
+    name: 'Vili',
+    faction: 'Forest Kingdom',
+    weapons: [
+      'Bow',
+      'Dagger',
+    ],
+    language: 'Elvish'
+  });
+  
+  console.log(vili.removeHealth()); 
+  console.log(vili.removeHealth()); 
+
+  const heio = new Hero({
+    createdAt: new Date(),
+    dimensions: {
+      length: 1,
+      width: 2,
+      height: 4,
+    },
+    hp: 12,
+    name: 'Heio',
+    faction: 'Forest Kingdom',
+    weapons: [
+      'Bow',
+      'Dagger',
+    ],
+    language: 'Elvish'
+  });
+
+  console.log(heio.removeHealth()); 
+  
